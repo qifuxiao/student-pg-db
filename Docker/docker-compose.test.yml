@@ -1,0 +1,27 @@
+# /home/alexqi/develop/student_pg_db/Docker/docker-compose.test.yml
+version: '3.8'
+
+services:
+  postgres-test:
+    image: postgres:16
+    container_name: postgres-test
+    environment:
+      - POSTGRES_DB=student_test          # ✅ 自动创建数据库（非函数内执行）
+      - POSTGRES_USER=student_test_app    # ✅ 自动创建用户
+      - POSTGRES_PASSWORD=test_secure_pass_123  # ✅ 用户密码
+      - POSTGRES_HOST_AUTH_METHOD=trust  # ✅ 允许本地免密（测试环境安全）
+      - TZ=Asia/Shanghai
+    volumes:
+      - postgres_test_data:/var/lib/postgresql  # ✅ 正确挂载点
+      # - ./init-scripts:/docker-entrypoint-initdb.d  # ❌ 注释掉或删除此行（不需要初始化脚本）
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U student_test_app -d student_test"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  postgres_test_data:

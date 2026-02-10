@@ -1,0 +1,37 @@
+[project]
+name = "student-pg-db"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "qifuxiao",email = "867225266@qq.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "psycopg2-binary (>=2.9.11,<3.0.0)",
+    "python-dotenv (>=1.2.1,<2.0.0)",
+    "faker (>=40.1.2,<41.0.0)",
+    "pydantic[email] (>=2.12.5,<3.0.0)",
+    "rich (>=14.3.2,<15.0.0)",
+    "typer (>=0.21.1,<0.22.0)"
+]
+packages = [  # 关键：添加这个字段
+    {include = "student_pg_db", from = "src"}
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+# ⚠️ 关键配置：注册 CLI 命令
+[tool.poetry.scripts]
+student-db = "student_pg_db.cli:app"  # 格式: 模块路径:变量名
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pytest-asyncio = "^0.23.0"
+pytest-cov = "^5.0.0"
+pytest-mock = "^3.14.0"
+freezegun = "^1.5.0"  # 时间冻结（测试日期逻辑）
+factory_boy = "^3.3.0"  # 测试数据工厂

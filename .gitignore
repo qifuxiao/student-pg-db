@@ -1,0 +1,10 @@
+venv/
+__pycache__/
+*.pyc
+*.log
+*.sqlite3
+.idea/
+.env.test
+.env.prod
+code_*.txt
+collect_code.sh

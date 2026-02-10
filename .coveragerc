@@ -1,0 +1,16 @@
+[run]
+source = student_pg_db
+branch = True
+omit =
+    */__init__.py
+    */cli.py  # CLI 主入口（测试覆盖率低是正常的）
+    */__main__.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__.:
+    raise AssertionError
+    raise NotImplementedError
+    if 0:
+    if TYPE_CHECKING:
