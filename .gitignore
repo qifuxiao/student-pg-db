@@ -6,5 +6,6 @@ __pycache__/
 .idea/
 .env.test
 .env.prod
+.env
 code_*.txt
 collect_code.sh

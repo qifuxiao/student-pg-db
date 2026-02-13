@@ -28,7 +28,8 @@ from student_pg_db.core.connection import DatabaseConnection
 from student_pg_db.database.manager import DatabaseManager
 from student_pg_db.database.repository import StudentRepository
 from student_pg_db.utils.data_generator import DataGenerator
-from student_pg_db.models.students import Student, StudentStatus
+from student_pg_db.models.students import Student
+
 
 
 @pytest.fixture(scope="session", autouse=True)

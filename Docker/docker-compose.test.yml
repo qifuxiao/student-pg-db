@@ -1,27 +1,48 @@
-# /home/alexqi/develop/student_pg_db/Docker/docker-compose.test.yml
 version: '3.8'
 
 services:
-  postgres-test:
+  postgres:
     image: postgres:16
     container_name: postgres-test
+    restart: unless-stopped
     environment:
-      - POSTGRES_DB=student_test          # ✅ 自动创建数据库（非函数内执行）
-      - POSTGRES_USER=student_test_app    # ✅ 自动创建用户
-      - POSTGRES_PASSWORD=test_secure_pass_123  # ✅ 用户密码
-      - POSTGRES_HOST_AUTH_METHOD=trust  # ✅ 允许本地免密（测试环境安全）
-      - TZ=Asia/Shanghai
+      POSTGRES_USER: ${DB_ADMIN_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_ADMIN_PASSWORD}
+      POSTGRES_DB: ${DB_ADMIN_DB:-postgres}
+      TZ: Asia/Shanghai
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - postgres_test_data:/var/lib/postgresql  # ✅ 正确挂载点
-      # - ./init-scripts:/docker-entrypoint-initdb.d  # ❌ 注释掉或删除此行（不需要初始化脚本）
+      - postgres_data_test:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d:ro
+      - ./logs:/var/log/postgresql
     ports:
-      - "5433:5432"
+      - "${DB_PORT:-5433}:5432"
+    networks:
+      - backend_test
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U student_test_app -d student_test"]
-      interval: 5s
-      timeout: 5s
+      test: ["CMD-SHELL", "pg_isready -U ${DB_ADMIN_USER:-postgres} -d ${DB_ADMIN_DB:-postgres}"]
+      interval: 30s
+      timeout: 10s
       retries: 5
-      start_period: 10s
+    command: >
+      postgres
+      -c password_encryption=scram-sha-256
+      -c log_connections=on
+      -c log_disconnections=on
+      -c log_statement=ddl
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
 
 volumes:
-  postgres_test_data:
+  postgres_data_test:
+    driver: local
+    driver_opts:
+      type: none
+      device: /data1/postgres_test
+      o: bind
+networks:
+  backend_test:
+    driver: bridge

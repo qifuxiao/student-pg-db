@@ -6,7 +6,8 @@ FilePath: /student_pg_db/tests/integration/test_repository.py
 """数据库仓库集成测试 - 需要真实数据库连接"""
 import pytest
 from datetime import date
-from student_pg_db.models.students import Student, StudentStatus
+from student_pg_db.models.students import Student
+from student_pg_db.schemas import StudentStatusEnum
 
 
 @pytest.mark.integration

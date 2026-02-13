@@ -6,7 +6,8 @@ FilePath: /student_pg_db/tests/unit/test_models.py
 """Pydantic 模型单元测试 - 无数据库依赖"""
 import pytest
 from datetime import date, datetime
-from student_pg_db.models.students import Student, StudentStatus
+from student_pg_db.models.students import Student
+from student_pg_db.schemas import StudentStatusEnum
 
 
 class TestStudentModel:
@@ -24,7 +25,7 @@ class TestStudentModel:
             class_name="CS2023-01"
         )
         assert student.name == "张三"
-        assert student.status == StudentStatus.ACTIVE
+        assert student.status == StudentStatusEnum.ACTIVE
     
     def test_invalid_age_too_young(self):
         """年龄过小应抛出验证错误"""

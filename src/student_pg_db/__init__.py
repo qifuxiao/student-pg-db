@@ -14,7 +14,8 @@ __license__ = "MIT"
 try:
     from .config import DatabaseConfig
     from .database.repository import StudentRepository
-    from .models.students import Student, StudentStatus
+    from .models.students import Student
+    from .schemas.student import StudentStatusEnum
 except ImportError as e:
     # 友好提示常见导入错误（便于调试）
     import sys
@@ -25,6 +26,6 @@ __all__ = [
     "DatabaseConfig",
     "StudentRepository",
     "Student",
-    "StudentStatus",
+    "StudentStatusEnum",
     "__version__",
 ]

@@ -1,8 +1,14 @@
+'''
+Author: qifuxiao 867225266@qq.com
+Date: 2026-02-05 11:23:46
+FilePath: /student_pg_db/src/student_pg_db/utils/data_generator.py
+'''
 import random
 from datetime import date
 from faker import Faker
 from typing import List
-from ..models.students import Student, StudentStatus
+from ..models.students import Student
+from ..schemas.student import StudentStatusEnum
 
 class DataGenerator:
     def __init__(self, locale: str = "zh_CN"):
@@ -41,8 +47,8 @@ class DataGenerator:
             phone=self.fake.phone_number()[:20],
             address=self.fake.address()[:500],
             gpa=round(random.uniform(2.0, 4.0), 2),
-            status=StudentStatus.ACTIVE,
-            scholarship_amount=0.0
+            status=StudentStatusEnum.ACTIVE,
+            
         )
 
     def generate_students(self, count: int = 100) -> List[Student]:

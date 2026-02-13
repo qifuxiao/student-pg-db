@@ -30,7 +30,30 @@
 | `.env` | 开发环境 | `docker-compose up` 自动加载 | 本地开发、调试 |
 | `.env.prod` | 生产环境 | `docker-compose --env-file .env.prod up` | 生产部署 |
 | `.env.test` | 测试环境 | `docker-compose -f docker-compose.test.yml --env-file .env.test up` | CI/CD 流水线 |
-
+2.1 开发测试命令：
+2.1.1 创建pg_dev数据库镜像
+`sh scripts.run_docker_dev.sh`
 3. 测试环境部署
 创建测试环境实际配置文件
 `cp .env.test.example .env.test`
+
+4. alembic 管理数据库
+4.1 初始化
+`poetry run alembic init alembic`
+4.2 生成迁移+建表
+`alembic revision --autogenerate -m "init students table"`
+`alembic upgrade head`
+
+# 每日开发步骤
+修改完代码后
+
+## 本地开发安装方式（Editable 安装）
+`poetry install` 
+## 更新数据库
+<!-- 
+poetry run alembic revision --autogenerate -m "xxx"
+poetry run alembic upgrade head
+
+ -->
+ ## pytest + Poetry
+ `APP_ENV=test poetry run pytest -v`
