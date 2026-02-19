@@ -41,8 +41,8 @@
 4.1 初始化
 `poetry run alembic init alembic`
 4.2 生成迁移+建表
-`alembic revision --autogenerate -m "init students table"`
-`alembic upgrade head`
+`poetry run alembic revision --autogenerate -m "init students table"`
+`poetry run alembic upgrade head`
 
 # 每日开发步骤
 修改完代码后
